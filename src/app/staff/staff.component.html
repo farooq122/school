@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+
+                    <h4>Staff</h4>
+                    <a href="javascript:void(0)" (click)="onClickAdd()" class="pull-right"> <i class="fa fa-plus">Add Staff</i></a>
+                </div>
+
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <thead class=" text-primary">
+                        <tr>
+                            <th>
+                                Serial No.
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Designation
+                            </th>
+                            <th>
+                                phone
+                            </th>
+                            <!-- <th class="text-right">
+                                Actions
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr [routerLink]="['/staff', staff._id]" *ngFor="let staff of staffs">
+                            <td>
+                                {{staff.serialNo}}
+                            </td>
+                            <td>
+                                {{staff.name}}
+                            </td>
+                            <td>
+                                {{staff.designation}}
+                            </td>
+                            <td>
+                                {{staff.phone}}
+                            </td>
+                            <!-- <td class="text-right">
+                                <a href="javascript:void(0)">
+
+                                </a>
+                            </td> -->
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addnewStaff>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New Staff</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" formControlName="name" class="form-control" placeholder="Name">
+                </div>
+                <small *ngIf="isFormSubmitted && f.name.errors && f.name.errors.required" class="text-danger">
+                    Name is Required
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" formControlName="designation" class="form-control" placeholder="Designation">
+                </div>
+                <small *ngIf="isFormSubmitted && f.designation.errors && f.designation.errors.required" class="text-danger">
+                    Designation is Required
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" num formControlName="phone" class="form-control" placeholder="Phone">
+                </div>
+                <small *ngIf="isFormSubmitted && f.phone.errors && f.phone.errors.required" class="text-danger">
+                    Phone is Required
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" formControlName="serialNo" class="form-control" placeholder="Serial No.">
+                </div>
+                <small *ngIf="isFormSubmitted && f.serialNo.errors && f.serialNo.errors.required" class="text-danger">
+                    Serial No is Required
+                </small>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+    </form>
+
+</ng-template>

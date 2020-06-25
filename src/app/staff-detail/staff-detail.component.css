@@ -1,0 +1,25 @@
+.card-user .card-body {
+    min-height: 200px;
+}
+
+.nav-item {
+    width: 50%;
+}
+
+.ho {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ho li {
+    float: left;
+}
+
+.ho li a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}

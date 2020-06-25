@@ -1,0 +1,186 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card card-user">
+            <div class="image">
+                <img src="../assets/img/damir-bosnjak.jpg" alt="...">
+            </div>
+            <div class="card-body">
+                <div class="author">
+                    <a href="#">
+                        <img class="avatar border-gray" src="../assets/img/mike.jpg" alt="...">
+                        <h5 class="title">{{staff?.name}}</h5>
+                    </a>
+                    <p class="description">
+                        {{staff?.designation}} - {{staff?.serialNo}}
+                    </p>
+                    <p class="description">
+                        {{staff?.phone}}
+                    </p>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <hr>
+                <div class="button-container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-6 ml-auto">
+                            <h5>12 Rs<br><small>Total Sent</small></h5>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
+                            <h5>2 Rs<br><small>Total Received</small></h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+        <div class="card card-user">
+            <div class="card-header">
+                <h5 class="card-title">{{isToday? 'Today': date | date: 'dd/MM/yyyy'}} Transactions </h5>
+                <form class="form-inline pull-right">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control d-none" (dateSelect)="onDateChange()" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn " (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                    <li ngbNavItem>
+                        <ul class="ho">
+                            <li><a ngbNavLink>Sent (Total : {{sentTotal}} Rs)</a></li>
+                            <li><a (click)="addTransaction('Sent')" href="javascript:void(0)"><i class="fa fa-plus"></i></a></li>
+                        </ul>
+                        <ng-template ngbNavContent>
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Decription
+                                    </th>
+                                    <th class="text-right">
+                                        Amount
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let transaction of sentTransactions">
+
+                                        <td>
+                                            {{transaction.date | date: 'dd/MM/yyyy'}}
+                                        </td>
+                                        <td>
+                                            {{transaction.decription}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{transaction.amount}} Rs
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </ng-template>
+                    </li>
+                    <li ngbNavItem>
+
+                        <ul class="ho">
+                            <li><a ngbNavLink>Received (Total : {{receivedTotal}} Rs)</a></li>
+                            <li><a (click)="addTransaction('Received')" href="javascript:void(0)"><i class="fa fa-plus"></i></a></li>
+                        </ul>
+                        <ng-template ngbNavContent>
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Decription
+                                    </th>
+                                    <th class="text-right">
+                                        Amount
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let transaction of receivedTransactions">
+
+                                        <td>
+                                            {{transaction.date | date: 'dd/MM/yyyy'}}
+                                        </td>
+                                        <td>
+                                            {{transaction.decription}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{transaction.amount}} Rs
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </ng-template>
+                    </li>
+                </ul>
+                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #addnewTransaction>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New Transaction</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" formControlName="decription" class="form-control" placeholder="Decription">
+                </div>
+                <small *ngIf="isFormSubmitted && f.decription.errors && f.decription.errors.required" class="text-danger">
+                    Decription is Required
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="name" formControlName="amount" num class="form-control" placeholder="Amount">
+                </div>
+                <small *ngIf="isFormSubmitted && f.amount.errors && f.amount.errors.required" class="text-danger">
+                    Amount is Required
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input id="dateOfBirth" formControlName="date" class="form-control" placeholder="dd/MM/yyyy" name="dp" ngbDatepicker #dp="ngbDatepicker">
+                    <div class="input-group-append">
+                        <button class="btn  fa fa-calendar" (click)="dp.toggle()" type="button"></button>
+                    </div>
+                </div>
+                <small *ngIf="isFormSubmitted && f.date.errors && f.date.errors.required" class="text-danger">
+                    Date is Required
+                </small>
+                <small *ngIf="isFormSubmitted && f.date.errors && f.date.errors.invalidDate" class="text-danger">
+                    Date format is Invalid
+                </small>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+    </form>
+
+</ng-template>
